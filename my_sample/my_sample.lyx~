@@ -328,7 +328,7 @@ literal "false"
 \begin_inset CommandInset bibtex
 LatexCommand bibtex
 btprint "btPrintCited"
-bibfiles "D:/latex/reference"
+bibfiles "reference"
 options "is-unsrt"
 
 \end_inset
