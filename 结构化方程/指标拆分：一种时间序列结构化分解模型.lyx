@@ -32,10 +32,10 @@
 \bibtex_command default
 \index_command default
 \paperfontsize default
-\spacing single
+\spacing onehalf
 \use_hyperref false
 \papersize default
-\use_geometry false
+\use_geometry true
 \use_package amsmath 1
 \use_package amssymb 1
 \use_package cancel 1
@@ -60,6 +60,8 @@
 \shortcut idx
 \color #008000
 \end_index
+\leftmargin 3cm
+\rightmargin 3cm
 \secnumdepth 3
 \tocdepth 3
 \paragraph_separation indent
@@ -221,7 +223,7 @@ literal "false"
 
 \end_inset
 
-中的可加分解结构；而对于分量的定义，参考了
+中的可加分解结构模型（generalized additive model GAM)；而对于分量的定义，参考了
 \begin_inset CommandInset citation
 LatexCommand cite
 key "harvey1990estimation,taylor2018forecasting"
@@ -270,16 +272,7 @@ literal "false"
 \end_layout
 
 \begin_layout Itemize
-我们可以很容易的从图上肉眼分别出美国长期国债1970~1980年之间的趋势改变；例如在
-\begin_inset CommandInset citation
-LatexCommand cite
-key "korotayev2010spectral"
-literal "false"
-
-\end_inset
-
-中，使用频谱分析的方法，研究上世纪初至今的美国GDP同比增速的GDP周期，发现了显著的多周期性结果。在我们的分解方程中，分段长期趋势可以很容易的使用分段线性增长
-模型或者饱和增长模型
+我们可以很容易的从图上肉眼分别出美国长期国债1970~1980年之间的趋势改变。在我们的分解方程中，分段长期趋势可以很容易的使用分段线性增长模型或者饱和增长模型
 \begin_inset CommandInset citation
 LatexCommand cite
 key "hutchinson1978introduction"
@@ -291,7 +284,19 @@ literal "false"
 \end_layout
 
 \begin_layout Itemize
-而多重周期性，则通过在时间序列频域上的划分来进行分解。除此之外，对于大部分时间序列都存在的异常值，我们通过分析其原因，可以将其大部分归结于
+在
+\begin_inset CommandInset citation
+LatexCommand cite
+key "korotayev2010spectral"
+literal "false"
+
+\end_inset
+
+中，使用频谱分析的方法，研究上世纪初至今的美国GDP同比增速的GDP周期，发现了显著的多周期性结果。多重周期性，则通过在时间序列频域上的划分来进行分解；
+\end_layout
+
+\begin_layout Itemize
+除此之外，对于大部分时间序列都存在的异常值，我们通过分析其原因，可以将其大部分归结于
 \begin_inset Formula $Y_{特殊}(t)$
 \end_inset
 
@@ -529,6 +534,299 @@ literal "false"
 
 \begin_layout Section
 如何分解
+\end_layout
+
+\begin_layout Standard
+我们的分解模型改进自
+\begin_inset CommandInset citation
+LatexCommand cite
+key "taylor2018forecasting"
+literal "false"
+
+\end_inset
+
+，同时加入了频谱的分解。整个模型我们将做两步分解，首先获得长期趋势以及特定脉冲项，然后再获取依据频谱拆分的结果。
+\end_layout
+
+\begin_layout Subsection
+分解模型
+\end_layout
+
+\begin_layout Standard
+在第一层分解中，我们将研究对象
+\begin_inset Formula $Y_{t}$
+\end_inset
+
+拆分为三部分：
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+Y_{t}=g(t)+c(t)+s(t)+\epsilon_{t}.
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+其中：
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $g(t)$
+\end_inset
+
+为带拐点的长期趋势项；
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $c(t)$
+\end_inset
+
+为混合的多周期重叠的周期项；
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $s(t)$
+\end_inset
+
+为由类似节假日，特殊事件引起的短期冲击项；
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\epsilon_{t}$
+\end_inset
+
+为残差项，我们假设满足正态分布。
+\end_layout
+
+\begin_layout Subsubsection
+长期趋势项
+\begin_inset Formula $g(t)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+在趋势项
+\begin_inset Formula $g(t)$
+\end_inset
+
+中我们是允许带有拐点（change points）的，备选的拐点，可能来自于领域专家的输入，也可能是模型的自主拟合。例如，我们有
+\begin_inset Formula $S$
+\end_inset
+
+个拐点，分别在时间节点
+\begin_inset Formula $s_{j},\,j=1\ldots,S$
+\end_inset
+
+.
+ 同时我们定义一组变动幅度
+\begin_inset Formula $\mathbf{\mathbf{\boldsymbol{\delta}}}$
+\end_inset
+
+，其中
+\begin_inset Formula $\delta_{j}$
+\end_inset
+
+为发生在
+\begin_inset Formula $s_{j}$
+\end_inset
+
+时刻的趋势变化。所以，在任意时刻
+\begin_inset Formula $t$
+\end_inset
+
+，累积的趋势增长基础项为：
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+k+\sum_{j|s_{j>t}}\delta_{j}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+其中
+\begin_inset Formula $k$
+\end_inset
+
+为基础增长率。为了更清晰的表达，我们定义一个向量
+\begin_inset Formula $\mathbf{{a(t)}}\in\{0,1\}^{S}$
+\end_inset
+
+，其中：
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+a_{j}(t)=\begin{cases}
+1, & if\,t\geq s_{j},\\
+0, & else.
+\end{cases}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+在这种情况下，累积的趋势项为
+\begin_inset Formula $k+\mathbf{{a}}(t)\mathbf{^{T}{\boldsymbol{\delta}}}$
+\end_inset
+
+。当我们使用分段线性增长模型的时候，我们得到最终的
+\begin_inset Formula $g(t)$
+\end_inset
+
+的表达结果：
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+g(t)=(k+\mathbf{{a}}(t)\mathbf{^{T}{\delta}})+(m+\mathbf{{a}}(t)\mathbf{^{T}\boldsymbol{\mathbf{{\gamma}}})}.
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+其中
+\begin_inset Formula $m$
+\end_inset
+
+为线性函数截距项，而
+\begin_inset Formula $\gamma_{j}=-s_{j}\delta_{j}$
+\end_inset
+
+以使得
+\begin_inset Formula $g(t)$
+\end_inset
+
+为线性函数。
+\end_layout
+
+\begin_layout Standard
+在我们的分解模型中，一般会选择很多
+\begin_inset Formula $s_{j}$
+\end_inset
+
+作为可能的拐点，同时使用先验分布假设：
+\begin_inset Formula $\delta_{j}\sim\mathrm{{Lapalace}(0,\tau)}$
+\end_inset
+
+。其中参数
+\begin_inset Formula $\tau$
+\end_inset
+
+控制了线性模型的复杂度，一般通过模型诊断流程确定。
+\end_layout
+
+\begin_layout Subsubsection
+多重周期项
+\begin_inset Formula $c(t)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+我们依赖Fourier分析的方法进行周期项的勾画
+\begin_inset CommandInset citation
+LatexCommand cite
+key "harvey199310"
+literal "false"
+
+\end_inset
+
+。假设
+\begin_inset Formula $P$
+\end_inset
+
+为按天计算的最小时间区间（通常情况下，即为原始数据的频率。例如周数据，并且我们使用日作为时间单位，则
+\begin_inset Formula $P=7$
+\end_inset
+
+），我们会使用如下的方程代表周期项：
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+c(t)=\sum_{n=1}^{N}(a_{n}\mathrm{cos}(\frac{{2\pi nt}}{P})+b_{n}\mathrm{sin}(\frac{{2\pi nt}}{P})).
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+在这个式子中我们需要估计
+\begin_inset Formula $2N$
+\end_inset
+
+个参数
+\begin_inset Formula $\boldsymbol{\beta}=[a_{1},b_{1},\ldots,a_{N},b_{N}]$
+\end_inset
+
+，我们可以通过向量方式，以更为简洁的方式表述这个公式，令：
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\boldsymbol{X(t)}=[\mathrm{\cos}(\frac{{2\pi t}}{P},\ldots,\mathrm{sin}(\frac{{2\pi Nt}}{P})].
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+则:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+c(t)=\boldsymbol{X(t)\beta}.
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+并且我们假设先验分布，
+\begin_inset Formula $\boldsymbol{\beta}\sim\mathrm{N}(0,\sigma^{2})$
+\end_inset
+
+。参数
+\begin_inset Formula $N$
+\end_inset
+
+相当于低通滤波的截断参数，由于我们结构化方程仅仅用于做分解，而不是直接做预测，我们倾向于选择一个较大的值，例如：
+\begin_inset Formula $N=10$
+\end_inset
+
+。
 \end_layout
 
 \begin_layout Section
