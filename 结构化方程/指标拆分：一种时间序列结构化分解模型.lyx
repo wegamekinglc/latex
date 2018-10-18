@@ -60,8 +60,8 @@
 \shortcut idx
 \color #008000
 \end_index
-\leftmargin 3cm
-\rightmargin 3cm
+\leftmargin 3.5cm
+\rightmargin 3.5cm
 \secnumdepth 3
 \tocdepth 3
 \paragraph_separation indent
@@ -384,7 +384,7 @@ literal "false"
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-Y_{宏观}(t)\:\sim\:f_{1}(Y_{t-1},\mathbf{{X_{t-1}}}).
+Y_{宏观}(t)\:\sim\:f_{1}(Y_{s},\mathbf{{X_{s}}|s<t}).
 \end{equation}
 
 \end_inset
@@ -394,10 +394,10 @@ Y_{宏观}(t)\:\sim\:f_{1}(Y_{t-1},\mathbf{{X_{t-1}}}).
 
 \begin_layout Standard
 这里
-\begin_inset Formula $\mathbf{X_{t-1}}$
+\begin_inset Formula $\mathbf{X_{s}}$
 \end_inset
 
-指可以使用的所有预测特征变量。同理，我们也可以有类似
+指可以使用的所有预测特征变量在时刻的状态。同理，我们也可以有类似
 \begin_inset Formula $Y_{中观}(t)$
 \end_inset
 
@@ -415,9 +415,9 @@ Y_{宏观}(t)\:\sim\:f_{1}(Y_{t-1},\mathbf{{X_{t-1}}}).
 \begin_layout Standard
 \begin_inset Formula 
 \begin{eqnarray}
-Y_{\text{中观}}(t) & \sim & f_{2}(Y_{t-1},\mathbf{{X_{t-1}}}),\\
-Y_{\text{微观}}(t) & \sim & f_{3}(Y_{t-1},\mathbf{{X_{t-1}}}),\\
-Y_{特殊}(t) & \sim & f_{4}(Y_{t-1},\mathbf{{X_{t-1}}}).
+Y_{\text{中观}}(t) & \sim & f_{2}(Y_{s},\mathbf{{X_{s}}|s<t}),\\
+Y_{\text{微观}}(t) & \sim & f_{3}(Y_{s},\mathbf{{X_{s}}|s<t}),\\
+Y_{特殊}(t) & \sim & f_{4}(Y_{s},\mathbf{{X_{s}}|s<t}).
 \end{eqnarray}
 
 \end_inset
@@ -626,7 +626,7 @@ Y_{t}=g(t)+c(t)+s(t)+\epsilon_{t}.
 
 .
  同时我们定义一组变动幅度
-\begin_inset Formula $\mathbf{\mathbf{\boldsymbol{\delta}}}$
+\begin_inset Formula $\mathbf{\mathbf{\boldsymbol{\delta}}=[\delta_{1},\ldots,\delta_{S}]^{T}}$
 \end_inset
 
 ，其中
@@ -671,7 +671,7 @@ k+\sum_{j|s_{j>t}}\delta_{j}
 \begin_inset Formula 
 \begin{equation}
 a_{j}(t)=\begin{cases}
-1, & if\,t\geq s_{j},\\
+1, & \:t\geq s_{j},\\
 0, & else.
 \end{cases}
 \end{equation}
@@ -733,7 +733,7 @@ g(t)=(k+\mathbf{{a}}(t)\mathbf{^{T}{\delta}})+(m+\mathbf{{a}}(t)\mathbf{^{T}\bol
 \begin_inset Formula $\tau$
 \end_inset
 
-控制了线性模型的复杂度，一般通过模型诊断流程确定。
+控制了模型的复杂度，一般通过模型诊断流程确定。
 \end_layout
 
 \begin_layout Subsubsection
@@ -781,7 +781,7 @@ c(t)=\sum_{n=1}^{N}(a_{n}\mathrm{cos}(\frac{{2\pi nt}}{P})+b_{n}\mathrm{sin}(\fr
 \end_inset
 
 个参数
-\begin_inset Formula $\boldsymbol{\beta}=[a_{1},b_{1},\ldots,a_{N},b_{N}]$
+\begin_inset Formula $\boldsymbol{\beta}=[a_{1},b_{1},\ldots,a_{N},b_{N}]^{T}$
 \end_inset
 
 ，我们可以通过向量方式，以更为简洁的方式表述这个公式，令：
@@ -790,7 +790,7 @@ c(t)=\sum_{n=1}^{N}(a_{n}\mathrm{cos}(\frac{{2\pi nt}}{P})+b_{n}\mathrm{sin}(\fr
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-\boldsymbol{X(t)}=[\mathrm{\cos}(\frac{{2\pi t}}{P},\ldots,\mathrm{sin}(\frac{{2\pi Nt}}{P})].
+\boldsymbol{X(t)}=[\mathrm{\cos}(\frac{{2\pi t}}{P}),\ldots,\mathrm{sin}(\frac{{2\pi Nt}}{P})]^{T}.
 \end{equation}
 
 \end_inset
@@ -805,7 +805,7 @@ c(t)=\sum_{n=1}^{N}(a_{n}\mathrm{cos}(\frac{{2\pi nt}}{P})+b_{n}\mathrm{sin}(\fr
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-c(t)=\boldsymbol{X(t)\beta}.
+c(t)=\boldsymbol{X(t)^{T}\beta}.
 \end{equation}
 
 \end_inset
@@ -823,7 +823,188 @@ c(t)=\boldsymbol{X(t)\beta}.
 \end_inset
 
 相当于低通滤波的截断参数，由于我们结构化方程仅仅用于做分解，而不是直接做预测，我们倾向于选择一个较大的值，例如：
-\begin_inset Formula $N=10$
+\begin_inset Formula $N=20$
+\end_inset
+
+。
+\end_layout
+
+\begin_layout Subsubsection
+短期冲击效应
+\begin_inset Formula $s(t)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+我们假设对于任意一个特殊日期
+\begin_inset Formula $d_{i}$
+\end_inset
+
+，定义
+\begin_inset Formula $D_{i}$
+\end_inset
+
+为这个日期之前和之后的附近一段时间区间。假设我们有
+\begin_inset Formula $L$
+\end_inset
+
+个特殊日期，定义：
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+Z(t)=[1(t\in D_{1}),\ldots,1(\in D_{L})]^{T}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+同时定义
+\begin_inset Formula $\boldsymbol{\kappa}=[\kappa_{1},\ldots,\kappa_{L}]^{T}$
+\end_inset
+
+为冲击强度，则
+\begin_inset Formula $s(t)$
+\end_inset
+
+可以简写为：
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+s(t)=Z(t)^{T}\boldsymbol{\kappa}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+其中，我们给与先验分布：
+\begin_inset Formula $\boldsymbol{\kappa}\sim\mathrm{N}(0,\nu^{2})$
+\end_inset
+
+。
+\end_layout
+
+\begin_layout Subsubsection
+模型估计
+\end_layout
+
+\begin_layout Standard
+模型估计方法，我们采用依赖基于先验分布的极大似然估计。具体的算法可以参考
+\begin_inset CommandInset citation
+LatexCommand cite
+key "taylor2018forecasting"
+literal "false"
+
+\end_inset
+
+，或者可以直接在某些概率建模语言中进行问题的设定以及求解
+\begin_inset CommandInset citation
+LatexCommand cite
+key "carpenter2017stan"
+literal "false"
+
+\end_inset
+
+。
+\end_layout
+
+\begin_layout Subsubsection
+频谱分解
+\end_layout
+
+\begin_layout Standard
+在模型估计完成后，我们得到了参数
+\begin_inset Formula $\boldsymbol{\beta}$
+\end_inset
+
+。根据由此得到的Fourier展开，我们设置阶段边界
+\begin_inset Formula $N_{1}$
+\end_inset
+
+以及
+\begin_inset Formula $N_{2}$
+\end_inset
+
+，令：
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+c(t)=c_{宏观}(t)+c_{中观}(t)+c_{微观}(t)
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+其中：
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align}
+c_{宏观}(t) & =\sum_{n=1}^{N_{1}}(a_{n}\mathrm{cos}(\frac{{2\pi nt}}{P})+b_{n}\mathrm{sin}(\frac{{2\pi nt}}{P})),\\
+c_{中观}(t) & =\sum_{n=N_{1}+1}^{N_{2}}(a_{n}\mathrm{cos}(\frac{{2\pi nt}}{P})+b_{n}\mathrm{sin}(\frac{{2\pi nt}}{P})),\\
+c_{微观}(t) & =\sum_{n=N_{2}+1}^{N}(a_{n}\mathrm{cos}(\frac{{2\pi nt}}{P})+b_{n}\mathrm{sin}(\frac{{2\pi nt}}{P})).
+\end{align}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+这里
+\begin_inset Formula $N_{1}$
+\end_inset
+
+以及
+\begin_inset Formula $N_{2}$
+\end_inset
+
+的选择依赖于研究经验以及领域特点。例如：GDP增速季频数据的宏观周期我们会截断至10年频率，而中观会截断至3年左右。
+\end_layout
+
+\begin_layout Standard
+最终我们得到了结构化方程的各个分量的定义：
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+Y_{t}=Y_{\text{宏观}}(t)+Y_{\text{中观}}(t)+Y_{\text{微观}}(t)+Y_{\text{特殊}}(t)+\epsilon_{t}.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+其中：
+\begin_inset Formula $Y_{\text{宏观}}=g(t)+c_{\text{宏观}}(t)$
+\end_inset
+
+，
+\begin_inset Formula $Y_{\text{中观}}=c_{\text{中观}}(t)$
+\end_inset
+
+，
+\begin_inset Formula $Y_{\text{微观}}=c_{\text{微观}}(t)$
 \end_inset
 
 。
