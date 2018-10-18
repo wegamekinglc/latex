@@ -7,6 +7,21 @@
 \textclass ctex-article
 \begin_preamble
 \CTEXsetup[format={\Large\bfseries}]{section}
+\usepackage{etoolbox}
+
+\patchcmd{\@maketitle}% <cmd>
+  {\ifx\@empty\@dedicatory}% <search>
+  {\smallskip
+    \begin{center}
+    \footnotesize% Size of the address content
+    \begin{tabular}{c}
+      Department of Who Cares \\
+      University of Nowhere \\
+      Randomville, RND
+    \end{tabular}
+  \end{center}
+  \ifx\@empty\@dedicatory}% <replace>
+  {}{}% <success><failure>
 \end_preamble
 \use_default_options true
 \maintain_unincluded_children false
@@ -88,6 +103,11 @@
 
 \begin_layout Author
 李丞
+\end_layout
+
+\begin_layout Address
+\align center
+LICHENG769@pingan.com.cn
 \end_layout
 
 \begin_layout Abstract
@@ -603,7 +623,7 @@ Y_{t}=g(t)+c(t)+s(t)+\epsilon_{t}.
 为残差项，我们假设满足正态分布。
 \end_layout
 
-\begin_layout Subsubsection
+\begin_layout Subsection
 长期趋势项
 \begin_inset Formula $g(t)$
 \end_inset
@@ -736,7 +756,7 @@ g(t)=(k+\mathbf{{a}}(t)\mathbf{^{T}{\delta}})+(m+\mathbf{{a}}(t)\mathbf{^{T}\bol
 控制了模型的复杂度，一般通过模型诊断流程确定。
 \end_layout
 
-\begin_layout Subsubsection
+\begin_layout Subsection
 多重周期项
 \begin_inset Formula $c(t)$
 \end_inset
@@ -757,11 +777,7 @@ literal "false"
 \begin_inset Formula $P$
 \end_inset
 
-为按天计算的最小时间区间（通常情况下，即为原始数据的频率。例如周数据，并且我们使用日作为时间单位，则
-\begin_inset Formula $P=7$
-\end_inset
-
-），我们会使用如下的方程代表周期项：
+为按天计算的时间区间，我们会使用如下的方程代表周期项：
 \end_layout
 
 \begin_layout Standard
@@ -773,6 +789,18 @@ c(t)=\sum_{n=1}^{N}(a_{n}\mathrm{cos}(\frac{{2\pi nt}}{P})+b_{n}\mathrm{sin}(\fr
 \end_inset
 
 
+\end_layout
+
+\begin_layout Standard
+这里的
+\begin_inset Formula $P$
+\end_inset
+
+实际代表着我们关心的最低频率的位置所在。例如，当我们研究宏观数据的时候，为了研究长周期性，我们通常会取
+\begin_inset Formula $P$
+\end_inset
+
+长达数年到数十年。
 \end_layout
 
 \begin_layout Standard
@@ -829,7 +857,7 @@ c(t)=\boldsymbol{X(t)^{T}\beta}.
 。
 \end_layout
 
-\begin_layout Subsubsection
+\begin_layout Subsection
 短期冲击效应
 \begin_inset Formula $s(t)$
 \end_inset
@@ -895,7 +923,7 @@ s(t)=Z(t)^{T}\boldsymbol{\kappa}
 。
 \end_layout
 
-\begin_layout Subsubsection
+\begin_layout Subsection
 模型估计
 \end_layout
 
@@ -919,7 +947,7 @@ literal "false"
 。
 \end_layout
 
-\begin_layout Subsubsection
+\begin_layout Subsection
 频谱分解
 \end_layout
 
@@ -1011,7 +1039,312 @@ Y_{t}=Y_{\text{宏观}}(t)+Y_{\text{中观}}(t)+Y_{\text{微观}}(t)+Y_{\text{�
 \end_layout
 
 \begin_layout Section
-实证研究
+实证结果
+\end_layout
+
+\begin_layout Subsection
+数据集
+\end_layout
+
+\begin_layout Standard
+在这部分中，我们将使用美国长期国债到期收益率的数据，试验我们的结构化分解方程。数据的时间范围从1953年到2018年下半年。由于可用数据中，早期的数据点只有月频
+数据，我们将整个数据重新采样至月频。
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement b
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+美国长期国债到期收益率（月频） 1953 - 2018
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:美国长期国债到期收益率（月频）-1953--"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename figures/usd_10y_rate.svg
+	height 10cm
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+从图
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:美国长期国债到期收益率（月频）-1953--"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+上我们很容易的看到：
+\end_layout
+
+\begin_layout Itemize
+80年代之前，长期国债收益率水平处于长期上升通道；之后进入下行通道。
+\end_layout
+
+\begin_layout Itemize
+最近一个阶段属于上行期，来自与推出QE的效应。
+\end_layout
+
+\begin_layout Subsection
+分解
+\end_layout
+
+\begin_layout Itemize
+我们在整个区间上平均分布25个备选的拐点；
+\end_layout
+
+\begin_layout Itemize
+由于收益率数据只有月频的数据，我们打算在这样的低频数据上引入冲击项；
+\end_layout
+
+\begin_layout Itemize
+考虑到我们的数据长度大约有50年，我们使用
+\begin_inset Formula $P$
+\end_inset
+
+为25年做为最大频率；
+\end_layout
+
+\begin_layout Itemize
+因为原始指标的频率为月频，我们将Fourier级数频率截断至季度；
+\end_layout
+
+\begin_layout Standard
+在图
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:美国长期国债到期收益率（月频）--分解"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+中，我们按照上面的配置，将原始序列分解为趋势
+\begin_inset Formula $g(t)$
+\end_inset
+
+、周期
+\begin_inset Formula $c(t)$
+\end_inset
+
+以及残差
+\begin_inset Formula $\epsilon_{t}$
+\end_inset
+
+。通过观察，可以得到：
+\begin_inset Float figure
+placement b
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+美国长期国债到期收益率（月频）- 分解
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:美国长期国债到期收益率（月频）--分解"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename figures/usd_rate_decompose.svg
+	height 10cm
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+70~80年代的大拐点成功的在趋势周期项中被捕捉到；
+\end_layout
+
+\begin_layout Itemize
+最近的QE退出造成的潜在拐点也在趋势项中有体现；
+\end_layout
+
+\begin_layout Itemize
+在周期项中，可以观察到的两个周期：10年和30年左右；但是由于原始数据大概只有50年左右，30年的周期效应可能是没有被趋势项吸收的部分；
+\end_layout
+
+\begin_layout Subsection
+频谱分析
+\end_layout
+
+\begin_layout Standard
+频谱分析的结果只是我们简单观测的验证。图
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:美国长期国债到期收益率（月频）--周期项频谱"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+为全频段分解的能量谱，而图
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:美国长期国债到期收益率（月频）--周期项频谱（10年以内）"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+为截断至10年的能量谱。
+\end_layout
+
+\begin_layout Itemize
+所有的可识别周期都在能量谱上以尖峰的形式得到体现；
+\end_layout
+
+\begin_layout Itemize
+在高频段，我们识别到了一个5年左右的周期。
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+美国长期国债到期收益率（月频）- 周期项频谱
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:美国长期国债到期收益率（月频）--周期项频谱"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename figures/usd_rate_spectral.svg
+	height 10cm
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement b
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+美国长期国债到期收益率（月频）- 周期项频谱（10年以内）
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:美国长期国债到期收益率（月频）--周期项频谱（10年以内）"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename figures/usd_rate_spectral_10y.svg
+	height 10cm
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
