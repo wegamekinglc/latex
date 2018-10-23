@@ -113,6 +113,34 @@
 \end_layout
 
 \begin_layout Section
+目的
+\end_layout
+
+\begin_layout Standard
+时间序列指标预测是平安宏观研究院的核心任务。与常规的研究机构不同，在平安我们的指标预测面临着与众不同的挑战：
+\end_layout
+
+\begin_layout Itemize
+预测任务多样：研究院的研究标的涵盖宏观经济指标、行业景气度、价格指数、个股、债券以及另类资产的研究。这些指标覆盖宏观、中观以及微观等各个方面；
+\end_layout
+
+\begin_layout Itemize
+基础数据广泛：数据从低频（季频、月频）、中频（月频、周频）、高频（日频、日内）直至覆盖另类（舆情、热度、情感、图像）；
+\end_layout
+
+\begin_layout Itemize
+专家背景不一：团队研究专家包括经济学家、基本面分析师、量化投资研究员以及人工智能工程师；
+\end_layout
+
+\begin_layout Itemize
+统一架构需求：需要一个统一的模型，保证各位研究人员可以研究不同研究标的、不同预测模型的同时，最后的
+\end_layout
+
+\begin_layout Standard
+为了解决上面的问题，我们开发了以下的结构化分解模型。
+\end_layout
+
+\begin_layout Section
 结构化方程
 \end_layout
 
@@ -548,6 +576,18 @@ literal "false"
 \end_layout
 
 \begin_layout Section
+与经典模型的比较
+\end_layout
+
+\begin_layout Standard
+虽然上面建立的只是一个分解模型，但是由于我们融入了合理的趋势、周期以及冲击假设，模型仍然具有很强的预测能力。
+\end_layout
+
+\begin_layout Standard
+本节我们给出一个基于美国二战以后GDP增长季度增长数据的例子，比较传统的ARIMA模型与我们的结构化分解模型。
+\end_layout
+
+\begin_layout Section
 如何分解
 \end_layout
 
@@ -561,6 +601,65 @@ literal "false"
 \end_inset
 
 ，同时加入了频谱的分解。整个模型我们将做两步分解，首先获得长期趋势以及特定脉冲项，然后再获取依据频谱拆分的结果。
+\end_layout
+
+\begin_layout Standard
+在图
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:美国GDP增长率（季频）1949-2018-ARIMA模型"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+中
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement b
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+美国GDP增长率（季频）1949-2018 ARIMA模型
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:美国GDP增长率（季频）1949-2018-ARIMA模型"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename figures/usd_gdp_forecast_arima.svg
+	height 10cm
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Subsection
@@ -1354,7 +1453,7 @@ name "fig:美国长期国债到期收益率（月频）--周期项频谱（10年
 \begin_inset CommandInset bibtex
 LatexCommand bibtex
 btprint "btPrintCited"
-bibfiles "D:/latex/reference"
+bibfiles "../reference"
 options "is-unsrt"
 
 \end_inset
