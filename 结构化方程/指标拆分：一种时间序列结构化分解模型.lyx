@@ -628,7 +628,11 @@ status open
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-美国GDP增长率（季频）1949-2018 ARIMA模型
+美国GDP增长率（季频）1949-2018 
+\begin_inset Formula $\mathrm{ARIMA}(1,0,1)$
+\end_inset
+
+模型
 \begin_inset CommandInset label
 LatexCommand label
 name "fig:美国GDP增长率（季频）1949-2018-ARIMA模型"
@@ -646,6 +650,55 @@ name "fig:美国GDP增长率（季频）1949-2018-ARIMA模型"
 \begin_layout Plain Layout
 \begin_inset Graphics
 	filename figures/usd_gdp_forecast_arima.svg
+	height 10cm
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+例如
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement b
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+美国GDP增长率（季频）1949-2018 结构化分解模型
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:美国GDP增长率（季频）1949-2018-结构化分解模型"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename figures/usd_gdp_forecast_prophet.svg
 	height 10cm
 
 \end_inset
