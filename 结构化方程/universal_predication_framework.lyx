@@ -530,7 +530,7 @@ status open
 
 
 \backslash
-begin{tabular}{@{}crrrcrrr@{}}
+begin{tabular}{@{}cccccccc@{}}
 \backslash
 toprule
 \end_layout
