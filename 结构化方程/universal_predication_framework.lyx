@@ -10,6 +10,8 @@
 \usepackage{etoolbox}
 \usepackage{fancyhdr}
 \usepackage{abstract}
+\usepackage{booktabs}
+\newcommand{\ra}[1]{\renewcommand{\arraystretch}{#1}}
 \pagestyle{fancy}
 \fancyhead{}
 \fancyhead[L]{平安宏观经济研究院【方法论】 WP.2018001}
@@ -475,6 +477,169 @@ name "sec:与经典模型的比较"
 为了正确的考察模型是否确实把握了时间序列的内在特征，我们将考察长达24期的样本外预测能力（在本例中，为对于未来6年的GDP增速预测）。
 \end_layout
 
+\begin_layout Standard
+在表
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:模型与结构分解模型对比"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+中，我们看到虽然ARIMA模型在训练期有完美的表现，但是在预测期表现不佳。预测期的误差t统计量高达-7.55；而结构分解模型在训练期和预测期有更一致的表现。
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+placement h
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\paragraph_spacing onehalf
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset Formula $\mathbf{\mathrm{ARIMA}}$
+\end_inset
+
+模型与结构分解模型对比
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:模型与结构分解模型对比"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{tabular}{@{}crrrcrrr@{}}
+\backslash
+toprule
+\end_layout
+
+\begin_layout Plain Layout
+
+& 
+\backslash
+multicolumn{3}{c}{训练期} & 
+\backslash
+phantom{abc} & 
+\backslash
+multicolumn{3}{c}{预测期}
+\backslash
+
+\backslash
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+cmidrule{2 - 4}  
+\backslash
+cmidrule{6 - 8}
+\end_layout
+
+\begin_layout Plain Layout
+
+& err.
+ & err.
+ (se.) & t.
+ && err.
+ & err.
+ (se.) & t.
+ 
+\backslash
+
+\backslash
+ 
+\backslash
+midrule
+\end_layout
+
+\begin_layout Plain Layout
+
+$
+\backslash
+mathrm{ARIMA}$ & $7.14
+\backslash
+mathrm{e}^{-5}$ & $6.76
+\backslash
+mathrm{e}^{-5}$ & $0.11$ && $-9.50
+\backslash
+mathrm{e}^{-3}$ & $1.26
+\backslash
+mathrm{e}^{-3}$ & $-7.55$  
+\backslash
+
+\backslash
+
+\end_layout
+
+\begin_layout Plain Layout
+
+结构分解 & $2.43
+\backslash
+mathrm{e}^{-5}$ & $1.39
+\backslash
+mathrm{e}^{-3}$ & $0.02$ && $-1.20
+\backslash
+mathrm{e}^{-4}$ & $1.82
+\backslash
+mathrm{e}^{-3}$ & $-0.07$ 
+\backslash
+
+\backslash
+ 
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+bottomrule
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{tabular}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
 \begin_layout Subsection
 \begin_inset Formula $\mathrm{ARIMA}(2,0,2)$
 \end_inset
@@ -771,11 +936,14 @@ noprefix "false"
 \end_inset
 
 。我们的通过观察，可以得到：
+\end_layout
+
+\begin_layout Standard
 \begin_inset Float figure
 placement h
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \begin_inset Caption Standard
@@ -1252,6 +1420,22 @@ LatexCommand bibtex
 btprint "btPrintCited"
 bibfiles "../reference"
 options "is-unsrt"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+clearpage
+\end_layout
 
 \end_inset
 
