@@ -11,30 +11,22 @@
 \usepackage{fancyhdr}
 \usepackage{abstract}
 \usepackage{booktabs}
+\usepackage{natbib}
 \newcommand{\ra}[1]{\renewcommand{\arraystretch}{#1}}
 \pagestyle{fancy}
 \fancyhead{}
 \fancyhead[L]{平安宏观经济研究院【方法论】 WP.2018001}
 \fancyhead[R]{\thepage}
-\fancyfoot{}
 
-\patchcmd{\@maketitle}% <cmd>
-  {\ifx\@empty\@dedicatory}% <search>
-  {\smallskip
-    \begin{center}
-    \footnotesize% Size of the address content
-    \begin{tabular}{c}
-      Department of Who Cares \\
-      University of Nowhere \\
-      Randomville, RND
-    \end{tabular}
-  \end{center}
-  \ifx\@empty\@dedicatory}% <replace>
-  {}{}% <success><failure>
-
+\renewcommand{\abstractname}{摘 \qquad 要}
+\renewcommand{\contentsname}{目 \qquad 录}
 \renewcommand{\abstractnamefont}{\normalfont\Large\bfseries}
 \renewcommand{\abstracttextfont}{\normalfont\normalsize}
+%\def\@cite#1#2{\textsuperscript{[{#1\if@tempswa , #2\fi}]}}
+\setcitestyle{super,square}
+\setlength{\baselineskip}{20pt}
 \end_preamble
+\options a4paper,12pt
 \use_default_options true
 \maintain_unincluded_children false
 \language chinese-simplified
@@ -59,7 +51,7 @@
 \bibtex_command default
 \index_command default
 \paperfontsize default
-\spacing onehalf
+\spacing single
 \use_hyperref false
 \papersize default
 \use_geometry true
@@ -88,7 +80,9 @@
 \color #008000
 \end_index
 \leftmargin 3.5cm
-\rightmargin 3.5cm
+\topmargin 1.8cm
+\rightmargin 3cm
+\bottommargin 3.6cm
 \secnumdepth 3
 \tocdepth 3
 \paragraph_separation indent
@@ -168,7 +162,7 @@ small
 
 \begin_layout Plain Layout
 
-$^1$) 平安宏观经济研究院
+$1$) 平安宏观经济研究院
 \end_layout
 
 \begin_layout Plain Layout
@@ -185,13 +179,6 @@ thispagestyle{empty}
 clearpage
 \end_layout
 
-\begin_layout Plain Layout
-
-
-\backslash
-setcounter{page}{1}
-\end_layout
-
 \end_inset
 
 
@@ -205,15 +192,94 @@ setcounter{page}{1}
 收益率的数据上，我们验证了基于趋势、周期、动量以及冲击效应分解的合理性。
 \end_layout
 
+\begin_layout Abstract
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+vspace{0.5cm}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+textbf{关键字：}趋势，周期，动量，冲击，结构化分解方程，频谱分析，贝叶斯推断
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
 \begin_layout Standard
 \begin_inset ERT
 status open
 
 \begin_layout Plain Layout
 
- 
+
 \backslash
-clearpage 
+fancyhead[R]{}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+fancyfoot{}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+clearpage
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset CommandInset toc
+LatexCommand tableofcontents
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+clearpage
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+fancyfoot[C]{
+\backslash
+thepage}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+setcounter{page}{1}
 \end_layout
 
 \end_inset
@@ -359,15 +425,34 @@ Y_{t}\sim Y_{趋势}(t)+Y_{周期}(t)+Y_{动量}(t)+Y_{冲击}(t).
 \end_inset
 
 中的周期以及季节效应，在我们这个分解模型中，将以频谱分析的方式进行抽取以及表征。以，其中包括大部分的由中期基本面驱动的上下浮动。大部分基于基本面因子的研究，例如
-：
+：W.
+ Sharpe
 \begin_inset CommandInset citation
 LatexCommand cite
-key "sharpe1964capital,fama1992cross,ross1976arbitrage"
+key "sharpe1964capital"
 literal "false"
 
 \end_inset
 
-，包括行业因素和局部地区因素，我们都把其归于这个层次的解释或者预测周期；
+的CAPM、E.
+ Fama
+\begin_inset CommandInset citation
+LatexCommand cite
+key "fama1992cross"
+literal "false"
+
+\end_inset
+
+的三因子模型以及S.
+ Ross
+\begin_inset CommandInset citation
+LatexCommand cite
+key "ross1976arbitrage"
+literal "false"
+
+\end_inset
+
+的套利定价模型，包括行业因素和局部地区因素，我们都把其归于这个层次的解释或者预测周期；
 \end_layout
 
 \begin_layout Itemize
@@ -378,15 +463,15 @@ literal "false"
 \begin_inset Formula $Y_{t}$
 \end_inset
 
-中的由市场以及交易特征驱动的部分。其中包括大部分的由中期基本面驱动的上下浮动。大部分基于领先因子的研究，例如：
+中的由市场以及交易特征驱动的部分。其中包括大部分的由中期基本面驱动的上下浮动。大部分基于领先因子的研究，例如：基本面多因子
 \begin_inset CommandInset citation
 LatexCommand cite
-key "sharpe1964capital,fama1992cross,ross1976arbitrage,menchero2011barra"
+key "qian2007quantitative"
 literal "false"
 
 \end_inset
 
-和大部分的由市场情绪和交易行为驱动的短期扰动。这是传统的量化研究
+、量价alpha指标
 \begin_inset CommandInset citation
 LatexCommand cite
 key "kakushadze2016101"
@@ -394,7 +479,7 @@ literal "false"
 
 \end_inset
 
-与行为金融学者
+和大部分的由市场情绪和交易行为驱动的短期扰动。这是传统的量化研究与行为金融学者
 \begin_inset CommandInset citation
 LatexCommand cite
 key "barberis2003survey"
@@ -417,7 +502,8 @@ literal "false"
 \end_layout
 
 \begin_layout Standard
-我们的结构方程使用了
+我们的结构方程使用了T.
+ Hastie
 \begin_inset CommandInset citation
 LatexCommand cite
 key "hastie1987generalized"
@@ -425,15 +511,25 @@ literal "false"
 
 \end_inset
 
-中的可加分解结构模型（generalized additive model GAM)；而对于分量的定义，参考了
+中的可加分解结构模型（generalized additive model GAM)；而对于分量的定义，参考了A.
+ Harvey
 \begin_inset CommandInset citation
 LatexCommand cite
-key "harvey1990estimation,taylor2018forecasting"
+key "harvey1990estimation"
 literal "false"
 
 \end_inset
 
-，但是根据我们处理的问题特点，做了较大的调整。具体分解算法，请见附录
+和S.
+ Taylor
+\begin_inset CommandInset citation
+LatexCommand cite
+key "taylor2018forecasting"
+literal "false"
+
+\end_inset
+
+的做法，但是根据我们处理的问题特点，做了较大的调整。具体分解算法，请见附录
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "sec:结构化模型"
@@ -488,7 +584,11 @@ noprefix "false"
 
 \end_inset
 
-中，我们看到虽然ARIMA模型在训练期有完美的表现，但是在预测期表现不佳。预测期的误差t统计量高达-7.55；而结构分解模型在训练期和预测期有更一致的表现。
+中，我们看到虽然ARIMA模型在训练期有完美的表现，但是在预测期表现不佳，预测期的误差t统计量高达
+\begin_inset Formula $-7.55$
+\end_inset
+
+；而结构分解模型在训练期和预测期有更一致的表现。
 \end_layout
 
 \begin_layout Standard
@@ -628,10 +728,6 @@ end{tabular}
 
 \end_inset
 
-
-\end_layout
-
-\begin_layout Plain Layout
 
 \end_layout
 
@@ -1123,15 +1219,7 @@ literal "false"
 
 \end_inset
 
-。参考
-\begin_inset CommandInset citation
-LatexCommand cite
-key "harvey1990estimation,taylor2018forecasting"
-literal "false"
-
-\end_inset
-
-，我们将指标分解看成一个曲线拟合（curve fitting）问题，同时将一条曲线分解成各个可加的成分；其中每个部分有自己独立的意义，例如：趋势、周期与冲击的拆
+。我们将指标分解看成一个曲线拟合（curve fitting）问题，同时将一条曲线分解成各个可加的成分；其中每个部分有自己独立的意义，例如：趋势、周期与冲击的拆
 分等。我们这样的分解有如下的优势：
 \end_layout
 
@@ -1170,7 +1258,8 @@ literal "false"
 \end_layout
 
 \begin_layout Itemize
-在
+A.
+ Korotayev
 \begin_inset CommandInset citation
 LatexCommand cite
 key "korotayev2010spectral"
@@ -1178,7 +1267,7 @@ literal "false"
 
 \end_inset
 
-中，使用频谱分析的方法，研究上世纪初至今的美国GDP同比增速的GDP周期，发现了显著的多周期性结果。多重周期性，则通过在时间序列频域上的划分来进行分解；
+使用频谱分析的方法，研究上世纪初至今的美国GDP同比增速的GDP周期，发现了显著的多周期性结果。多重周期性，则通过在时间序列频域上的划分来进行分解；
 \end_layout
 
 \begin_layout Itemize
@@ -1412,6 +1501,22 @@ literal "false"
 
 \begin_layout Standard
 结构化分解方程，把研究对象分解为不同的分量，然后我们可以把这些分量分配给不同背景的研究员，充分发挥不同类型研究专家的领域特定知识。
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+addcontentsline{toc}{section}{参考文献}
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -1840,7 +1945,8 @@ s(t)=Z(t)^{T}\boldsymbol{\kappa}
 \end_layout
 
 \begin_layout Standard
-模型估计方法，我们采用依赖基于先验分布的极大似然估计。具体的算法可以参考
+模型估计方法，我们采用依赖基于先验分布的极大似然估计。具体的算法可以参考S.
+ Taylor
 \begin_inset CommandInset citation
 LatexCommand cite
 key "taylor2018forecasting"
@@ -1848,15 +1954,23 @@ literal "false"
 
 \end_inset
 
-，或者可以直接在某些概率建模语言中，例如
+。或者可以直接在某些概率建模语言中，例如pymc3
 \begin_inset CommandInset citation
 LatexCommand cite
-key "salvatier2016probabilistic,carpenter2017stan"
+key "salvatier2016probabilistic"
 literal "false"
 
 \end_inset
 
-，进行问题的设定。通常上面的具体的工具会基于某些优化算法，例如
+以及stan
+\begin_inset CommandInset citation
+LatexCommand cite
+key "carpenter2017stan"
+literal "false"
+
+\end_inset
+
+，进行问题的设定。通常上面的具体的工具会基于某些优化算法，例如L-BFGS
 \begin_inset CommandInset citation
 LatexCommand cite
 key "liu1989limited"
