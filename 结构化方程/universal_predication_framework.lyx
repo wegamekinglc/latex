@@ -69,7 +69,7 @@
 \use_package undertilde 1
 \cite_engine basic
 \cite_engine_type default
-\biblio_style is-unsrt
+\biblio_style unsrt
 \use_bibtopic false
 \use_indices false
 \paperorientation portrait
@@ -1530,7 +1530,7 @@ normalem
 LatexCommand bibtex
 btprint "btPrintCited"
 bibfiles "../reference"
-options "is-unsrt"
+options "unsrt"
 
 \end_inset
 
