@@ -7,6 +7,8 @@
 \textclass ctex-article
 \begin_preamble
 \CTEXsetup[format={\Large\bfseries}]{section}
+\usepackage{fontspec}
+\setmainfont{Arial}
 \usepackage{etoolbox}
 \usepackage{fancyhdr}
 \usepackage{abstract}
@@ -15,14 +17,13 @@
 \newcommand{\ra}[1]{\renewcommand{\arraystretch}{#1}}
 \pagestyle{fancy}
 \fancyhead{}
-\fancyhead[L]{平安宏观经济研究院【方法论】 WP.2018001}
-\fancyhead[R]{\thepage}
+\fancyhead[L]{\fontsize{9}{9} \selectfont 平安宏观经济研究院}
+\fancyhead[R]{\fontsize{9}{9} \selectfont 文档编号：201801001}
 
 \renewcommand{\abstractname}{摘 \qquad 要}
 \renewcommand{\contentsname}{目 \qquad 录}
 \renewcommand{\abstractnamefont}{\normalfont\Large\bfseries}
 \renewcommand{\abstracttextfont}{\normalfont\normalsize}
-%\def\@cite#1#2{\textsuperscript{[{#1\if@tempswa , #2\fi}]}}
 \setcitestyle{super,square}
 \setlength{\baselineskip}{20pt}
 \end_preamble
@@ -33,7 +34,7 @@
 \language_package default
 \inputencoding utf8-plain
 \fontencoding global
-\font_roman "default" "default"
+\font_roman "times" "default"
 \font_sans "default" "default"
 \font_typewriter "default" "default"
 \font_math "auto" "auto"
@@ -43,6 +44,7 @@
 \font_osf false
 \font_sf_scale 100 100
 \font_tt_scale 100 100
+\font_cjk song
 \use_microtype false
 \use_dash_ligatures true
 \graphics default
@@ -79,10 +81,10 @@
 \shortcut idx
 \color #008000
 \end_index
-\leftmargin 3.5cm
-\topmargin 1.8cm
-\rightmargin 3cm
-\bottommargin 3.6cm
+\leftmargin 3.17cm
+\topmargin 2.54cm
+\rightmargin 3.17cm
+\bottommargin 2.54cm
 \secnumdepth 3
 \tocdepth 3
 \paragraph_separation indent
@@ -223,13 +225,6 @@ status open
 
 
 \backslash
-fancyhead[R]{}
-\end_layout
-
-\begin_layout Plain Layout
-
-
-\backslash
 fancyfoot{}
 \end_layout
 
@@ -271,6 +266,10 @@ clearpage
 
 \backslash
 fancyfoot[C]{
+\backslash
+fontsize{9}{9} 
+\backslash
+selectfont 
 \backslash
 thepage}
 \end_layout
@@ -1512,6 +1511,13 @@ status open
 
 \backslash
 addcontentsline{toc}{section}{参考文献}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+normalem
 \end_layout
 
 \end_inset
